@@ -4,7 +4,6 @@ project(vdtmath)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
 
 include_directories(include)
 
