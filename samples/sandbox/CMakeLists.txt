@@ -21,3 +21,5 @@ target_link_libraries(
     ${PROJECT_NAME} 
     vdtmath
 )
+
+add_subdirectory(../../ vdtmath)

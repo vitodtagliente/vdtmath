@@ -6,7 +6,7 @@ using namespace math;
 
 int main()
 {
-	
+	vec2 v;
 
 	return getchar();
 }

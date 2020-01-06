@@ -20,6 +20,3 @@ add_library(
     ${PROJECT_HEADERS}
     ${PROJECT_SOURCES} 
 )
-
-# Samples
-add_subdirectory(samples/sandbox)
