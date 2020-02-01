@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.2)
+if(TARGET vdtmath)
+	return()
+endif()
 project(vdtmath)
 
-enable_testing()
-
 set(CMAKE_CXX_STANDARD 17)
-
-include_directories(include)
 
 file(GLOB PROJECT_HEADERS "include/vdtmath/*.h") 
 file(GLOB PROJECT_SOURCES "source/*.cpp")
@@ -19,3 +18,5 @@ add_library(
     ${PROJECT_HEADERS}
     ${PROJECT_SOURCES} 
 )
+
+target_include_directories(${PROJECT_NAME} PUBLIC include)
