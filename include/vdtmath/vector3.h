@@ -115,7 +115,12 @@ namespace math
 		// normalize the vector
 		vector3_t normalize()
 		{
-			return (*this *= (static_cast<T>(1.0) / magnitude()));
+			const T mag = magnitude();
+			if (mag != static_cast<T>(0.0))
+			{
+				(*this *= (static_cast<T>(1.0) / mag));
+			}
+			return *this;
 		}
 
 		vector3_t project(const vector3_t &)
