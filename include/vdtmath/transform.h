@@ -4,7 +4,6 @@
 
 #include "matrix4.h"
 #include "vector3.h"
-#include "quaternion.h"
 
 namespace math
 {
@@ -13,23 +12,32 @@ namespace math
 	public:
 
 		transform();
-		transform(const vector3& position, const quaternion& rotation, const vector3& scale);
 
 		inline const matrix4& matrix() const { return m_matrix; }
 
-		inline void update()
-		{
-			//m_matrix = matrix4::scale(scale) * rotation.matrix() * matrix4::translate(position);
-			m_matrix = matrix4::scale(scale) * matrix4::rotate_z(rotation.z) * matrix4::translate(position);
-		}
+		void update();
+
+		inline bool getIsStatic() const { return m_isStatic; }
+		void setIsStatic(bool value);
 
 		vector3 position;
-		quaternion rotation;
+		vector3 rotation;
 		vector3 scale;
 
 	private:
 
+		struct State
+		{
+			vector3 position;
+			vector3 rotation;
+			vector3 scale;	
+
+			bool update(transform& transform);
+		};
+
 		// cached matrix
 		matrix4 m_matrix;
+		bool m_isStatic;
+		State m_state;
 	};
 }

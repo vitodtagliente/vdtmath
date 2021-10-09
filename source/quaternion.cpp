@@ -2,6 +2,8 @@
 
 namespace math
 {
+	const quaternion quaternion::identity = quaternion(0.f, 0.f, 0.f, 1.0f);
+
 	quaternion::quaternion()
 		: x(), y(), z(), w(1.0f)
 	{
@@ -180,7 +182,7 @@ namespace math
 	{
 		const float l = length();
 		assert(l != 0.0f);
-		const float f = 1.0f / std::pow(l, 2);
+		const float f = 1.0f / static_cast<float>(std::pow(l, 2));
 		return quaternion(-x * f, -y * f, -z * f, w * f);
 	}
 

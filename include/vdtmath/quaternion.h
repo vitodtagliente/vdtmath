@@ -12,6 +12,8 @@ namespace math
 {
 	struct quaternion
 	{
+		static const quaternion identity;
+
 		union
 		{
 			struct
