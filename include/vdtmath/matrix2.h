@@ -49,7 +49,7 @@ namespace math
 		matrix2_t(
 			const T m00, const T m01,
 			const T m10, const T m11
-		) : data(),
+		) : 
 			m00(m00), m01(m01),
 			m10(m10), m11(m11)
 		{

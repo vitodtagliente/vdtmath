@@ -57,7 +57,7 @@ namespace math
 			const T m10, const T m11, const T m12, const T m13,
 			const T m20, const T m21, const T m22, const T m23,
 			const T m30, const T m31, const T m32, const T m33
-		) : data(),
+		) : 
 			m00(m00), m01(m01), m02(m02), m03(m03),
 			m10(m10), m11(m11), m12(m12), m13(m13),
 			m20(m20), m21(m21), m22(m22), m23(m23),
