@@ -17,12 +17,10 @@ namespace math
 
 		void update();
 
-		inline bool getIsStatic() const { return m_isStatic; }
-		void setIsStatic(bool value);
-
 		vector3 position;
 		vector3 rotation;
 		vector3 scale;
+		bool isStatic;
 
 	private:
 
@@ -37,7 +35,7 @@ namespace math
 
 		// cached matrix
 		matrix4 m_matrix;
-		bool m_isStatic;
+		bool m_wasStatic;
 		State m_state;
 	};
 }
