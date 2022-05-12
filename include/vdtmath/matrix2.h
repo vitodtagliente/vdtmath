@@ -49,7 +49,7 @@ namespace math
 		matrix2_t(
 			const T m00, const T m01,
 			const T m10, const T m11
-		) : 
+		) :
 			m00(m00), m01(m01),
 			m10(m10), m11(m11)
 		{
@@ -96,7 +96,7 @@ namespace math
 		// sub matrix
 		T minor(const unsigned int i, const unsigned int j) const
 		{
-			assert(i < columns && j < rows);
+			assert(i < columns&& j < rows);
 			return (*this)(i == 1 ? 0 : 1, j == 1 ? 0 : 1);
 		}
 
@@ -104,7 +104,7 @@ namespace math
 		{
 			is_invertible = false;
 			const T d = determinant();
-			if (d != static_cast<T>(0.0)) 
+			if (d != static_cast<T>(0.0))
 			{
 				is_invertible = true;
 				return matrix2_t(
@@ -123,7 +123,7 @@ namespace math
 
 		/* Operators overloading */
 
-		matrix2_t& operator= (const matrix2_t & matrix)
+		matrix2_t& operator= (const matrix2_t& matrix)
 		{
 			// check for self-assignment
 			if (this == &matrix)
@@ -133,26 +133,26 @@ namespace math
 			return *this;
 		}
 
-		bool operator== (const matrix2_t & matrix) const
+		bool operator== (const matrix2_t& matrix) const
 		{
 			return m00 == matrix.m00 && m01 == matrix.m01
 				&& m01 == matrix.m01 && m11 == matrix.m11;
 		}
 
-		bool operator!= (const matrix2_t & matrix) const
+		bool operator!= (const matrix2_t& matrix) const
 		{
 			return m00 != matrix.m00 || m01 != matrix.m01
 				|| m01 != matrix.m01 || m11 != matrix.m11;
 		}
 
-		matrix2_t& operator+= (const matrix2_t & matrix)
+		matrix2_t& operator+= (const matrix2_t& matrix)
 		{
 			for (unsigned int i = 0; i < length; i++)
 				data[i] += matrix.data[i];
 			return *this;
 		}
 
-		matrix2_t& operator-= (const matrix2_t & matrix)
+		matrix2_t& operator-= (const matrix2_t& matrix)
 		{
 			for (unsigned int i = 0; i < length; i++)
 				data[i] -= matrix.data[i];
@@ -181,7 +181,7 @@ namespace math
 			return result;
 		}
 
-		matrix2_t operator+ (const matrix2_t & matrix) const
+		matrix2_t operator+ (const matrix2_t& matrix) const
 		{
 			matrix2_t result;
 			for (unsigned int i = 0; i < length; i++)
@@ -189,7 +189,7 @@ namespace math
 			return result;
 		}
 
-		matrix2_t operator- (const matrix2_t & matrix) const
+		matrix2_t operator- (const matrix2_t& matrix) const
 		{
 			matrix2_t result;
 			for (unsigned int i = 0; i < length; i++)

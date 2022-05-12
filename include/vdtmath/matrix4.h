@@ -106,7 +106,8 @@ namespace math
 		// sub matrix
 		matrix3_t<T> minor(const unsigned int i, const unsigned int j) const
 		{
-			assert(i < columns && j < rows);
+			assert(i < columns
+				&& j < rows);
 			matrix3_t<T> result;
 
 			for (unsigned int _j = 0, __j = 0; _j < rows; ++_j)
@@ -138,12 +139,13 @@ namespace math
 		matrix4_t adjugate() const
 		{
 			matrix4_t result;
+			const matrix4_t MT = transpose();
 			for (unsigned int j = 0; j < rows; ++j)
 			{
 				for (unsigned int i = 0; i < columns; ++i)
 				{
-					matrix3_t<T> currentMinor = minor(i, j);
-					result(j, i) = static_cast<T>(std::pow(-1, i + 1)) * currentMinor.determinant();
+					matrix3_t<T> currentMinor = MT.minor(i, j);
+					result(i, j) = static_cast<T>(std::pow(-1, i + j)) * currentMinor.determinant();
 				}
 			}
 			return result;
@@ -157,8 +159,8 @@ namespace math
 			T result{};
 			for (unsigned int i = 0; i < columns; ++i)
 			{
-				const matrix3_t<T> minor = m.minor(i, j);
-				result += std::pow(-1, i + j) * minor.determinant();
+				const matrix3_t<T> m = minor(i, j);
+				result += (*this)(i, j) * static_cast<T>(std::pow(-1, i + j)) * m.determinant();
 			}
 			return result;
 		}

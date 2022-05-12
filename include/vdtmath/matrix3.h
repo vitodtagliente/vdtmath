@@ -39,20 +39,32 @@ namespace math
 		matrix3_t()
 			: data()
 		{
-			std::memset(data, 0, length * sizeof(T));
+			for (unsigned int j = 0; j < rows; j++)
+			{
+				for (unsigned int i = 0; i < columns; i++)
+				{
+					(*this)(i, j) = static_cast<T>(0.0);
+				}
+			}
 		}
 
 		matrix3_t(const T value)
 			: data()
 		{
-			std::memset(data, value, length * sizeof(T));
+			for (unsigned int j = 0; j < rows; j++)
+			{
+				for (unsigned int i = 0; i < columns; i++)
+				{
+					(*this)(i, j) = value;
+				}
+			}
 		}
 
 		matrix3_t(
 			const T m00, const T m01, const T m02,
 			const T m10, const T m11, const T m12,
 			const T m20, const T m21, const T m22
-		) : 
+		) :
 			m00(m00), m01(m01), m02(m02),
 			m10(m10), m11(m11), m12(m12),
 			m20(m20), m21(m21), m22(m22)
@@ -100,7 +112,8 @@ namespace math
 		// sub matrix
 		matrix2_t<T> minor(const unsigned int i, const unsigned int j) const
 		{
-			assert(i < columns&& j < rows);
+			assert(i < columns
+				&& j < rows);
 			matrix2_t<T> result;
 
 			for (unsigned int _j = 0, __j = 0; _j < rows; ++_j)
@@ -132,12 +145,13 @@ namespace math
 		matrix3_t adjugate() const
 		{
 			matrix3_t result;
+			const matrix3_t MT = transpose();
 			for (unsigned int j = 0; j < rows; ++j)
 			{
 				for (unsigned int i = 0; i < columns; ++i)
 				{
-					matrix2_t<T> currentMinor = minor(i, j);
-					result(j, i) = static_cast<T>(std::pow(-1, i + 1)) * currentMinor.determinant();
+					matrix2_t<T> currentMinor = MT.minor(i, j);
+					result(i, j) = static_cast<T>(std::pow(-1, i + j)) * currentMinor.determinant();
 				}
 			}
 			return result;
@@ -147,14 +161,13 @@ namespace math
 		T determinant() const
 		{
 			// Sarrus law
-			return (m00 * m11 * m22) -
-				(m01 * m12 * m20) -
-				(m02 * m10 * m21);
+			return (m00 * m11 * m22) + (m01 * m12 * m20) + (m02 * m10 * m21)
+				- (m20 * m11 * m02) - (m21 * m12 * m00) - (m22 * m10 * m01);
 		}
 
 		/* Operators overloading */
 
-		matrix3_t& operator= (const matrix3_t & matrix)
+		matrix3_t& operator= (const matrix3_t& matrix)
 		{
 			// check for self-assignment
 			if (this == &matrix)
@@ -164,28 +177,28 @@ namespace math
 			return *this;
 		}
 
-		bool operator== (const matrix3_t & matrix) const
+		bool operator== (const matrix3_t& matrix) const
 		{
 			return m00 == matrix.m00 && m01 == matrix.m01 && m02 == matrix.m02
 				&& m01 == matrix.m01 && m11 == matrix.m11 && m12 == matrix.m12
 				&& m02 == matrix.m02 && m21 == matrix.m21 && m22 == matrix.m22;
 		}
 
-		bool operator!= (const matrix3_t & matrix) const
+		bool operator!= (const matrix3_t& matrix) const
 		{
 			return m00 != matrix.m00 || m01 != matrix.m01 || m02 != matrix.m02
 				|| m01 != matrix.m01 || m11 != matrix.m11 || m12 != matrix.m12
 				|| m02 != matrix.m02 || m21 != matrix.m21 || m22 != matrix.m22;
 		}
 
-		matrix3_t& operator+= (const matrix3_t & matrix)
+		matrix3_t& operator+= (const matrix3_t& matrix)
 		{
 			for (unsigned int i = 0; i < length; i++)
 				data[i] += matrix.data[i];
 			return *this;
 		}
 
-		matrix3_t& operator-= (const matrix3_t & matrix)
+		matrix3_t& operator-= (const matrix3_t& matrix)
 		{
 			for (unsigned int i = 0; i < length; i++)
 				data[i] -= matrix.data[i];
@@ -214,7 +227,7 @@ namespace math
 			return result;
 		}
 
-		matrix3_t operator+ (const matrix3_t & matrix) const
+		matrix3_t operator+ (const matrix3_t& matrix) const
 		{
 			matrix3_t result;
 			for (unsigned int i = 0; i < length; i++)
@@ -222,7 +235,7 @@ namespace math
 			return result;
 		}
 
-		matrix3_t operator- (const matrix3_t & matrix) const
+		matrix3_t operator- (const matrix3_t& matrix) const
 		{
 			matrix3_t result;
 			for (unsigned int i = 0; i < length; i++)
