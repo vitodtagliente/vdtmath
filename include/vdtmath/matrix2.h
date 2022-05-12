@@ -37,7 +37,7 @@ namespace math
 		matrix2_t()
 			: data()
 		{
-			std::memset(data, static_cast<T>(0), length * sizeof(T));
+			std::memset(data, 0, length * sizeof(T));
 		}
 
 		matrix2_t(const T value)
@@ -103,13 +103,13 @@ namespace math
 		matrix2_t inverse(bool& is_invertible) const
 		{
 			is_invertible = false;
-			T d = determinant(*this);
+			const T d = determinant();
 			if (d != static_cast<T>(0.0)) 
 			{
 				is_invertible = true;
 				return matrix2_t(
-					m11, -m10,
-					-m01, m00
+					m11, -m01,
+					-m10, m00
 				) / d;
 			}
 			return *this;

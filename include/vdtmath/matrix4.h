@@ -43,7 +43,7 @@ namespace math
 		matrix4_t()
 			: data()
 		{
-			std::memset(data, static_cast<int>(0), length * sizeof(T));
+			std::memset(data, 0, length * sizeof(T));
 		}
 
 		matrix4_t(const T value)
@@ -57,7 +57,7 @@ namespace math
 			const T m10, const T m11, const T m12, const T m13,
 			const T m20, const T m21, const T m22, const T m23,
 			const T m30, const T m31, const T m32, const T m33
-		) : 
+		) :
 			m00(m00), m01(m01), m02(m02), m03(m03),
 			m10(m10), m11(m11), m12(m12), m13(m13),
 			m20(m20), m21(m21), m22(m22), m23(m23),
@@ -107,18 +107,18 @@ namespace math
 		matrix3_t<T> minor(const unsigned int i, const unsigned int j) const
 		{
 			assert(i < columns && j < rows);
-			matrix3_t result;
+			matrix3_t<T> result;
 
-			for (unsigned int j = 0, _j = 0; j < rows; ++j)
+			for (unsigned int _j = 0, __j = 0; _j < rows; ++_j)
 			{
-				if (j == j) continue;
-				for (unsigned int i = 0, _i = 0; i < columns; ++i)
+				if (_j == j) continue;
+				for (unsigned int _i = 0, __i = 0; _i < columns; ++_i)
 				{
-					if (i == i) continue;
-					result(_i, _j) = (*this)(i, j);
-					++_i;
+					if (_i == i) continue;
+					result(__i, __j) = (*this)(_i, _j);
+					++__i;
 				}
-				++_j;
+				++__j;
 			}
 			return result;
 		}
@@ -126,7 +126,7 @@ namespace math
 		matrix4_t inverse(bool& is_invertible) const
 		{
 			is_invertible = false;
-			T d = determinant(*this);
+			const T d = determinant();
 			if (d != static_cast<T>(0.0)) {
 				is_invertible = true;
 				return adjugate() / d;
@@ -186,14 +186,14 @@ namespace math
 		static matrix4_t rotate_x(const float theta);
 		static matrix4_t rotate_y(const float theta);
 		static matrix4_t rotate_z(const float theta);
-		static matrix4_t rotate(const vector3_t<T> & vector, const float theta);
+		static matrix4_t rotate(const vector3_t<T>& vector, const float theta);
 
 		// scale
 		static matrix4_t scale(const vector3_t<T>& vector);
 
 		/* Operators overloading */
 
-		matrix4_t& operator= (const matrix4_t & matrix)
+		matrix4_t& operator= (const matrix4_t& matrix)
 		{
 			// check for self-assignment
 			if (this == &matrix)
@@ -203,7 +203,7 @@ namespace math
 			return *this;
 		}
 
-		bool operator== (const matrix4_t & matrix) const
+		bool operator== (const matrix4_t& matrix) const
 		{
 			return m00 == matrix.m00 && m01 == matrix.m01 && m02 == matrix.m02 && m03 == matrix.m03
 				&& m01 == matrix.m01 && m11 == matrix.m11 && m12 == matrix.m12 && m13 == matrix.m13
@@ -211,7 +211,7 @@ namespace math
 				&& m03 == matrix.m03 && m31 == matrix.m31 && m32 == matrix.m32 && m33 == matrix.m33;
 		}
 
-		bool operator!= (const matrix4_t & matrix) const
+		bool operator!= (const matrix4_t& matrix) const
 		{
 			return m00 != matrix.m00 || m01 != matrix.m01 || m02 != matrix.m02 || m03 != matrix.m03
 				|| m01 != matrix.m01 || m11 != matrix.m11 || m12 != matrix.m12 || m13 != matrix.m13
@@ -219,14 +219,14 @@ namespace math
 				|| m03 != matrix.m03 || m31 != matrix.m31 || m32 != matrix.m32 || m33 != matrix.m33;
 		}
 
-		matrix4_t& operator+= (const matrix4_t & matrix)
+		matrix4_t& operator+= (const matrix4_t& matrix)
 		{
 			for (unsigned int i = 0; i < length; i++)
 				data[i] += matrix.data[i];
 			return *this;
 		}
 
-		matrix4_t& operator-= (const matrix4_t & matrix)
+		matrix4_t& operator-= (const matrix4_t& matrix)
 		{
 			for (unsigned int i = 0; i < length; i++)
 				data[i] -= matrix.data[i];
@@ -255,7 +255,7 @@ namespace math
 			return result;
 		}
 
-		matrix4_t operator+ (const matrix4_t & matrix) const
+		matrix4_t operator+ (const matrix4_t& matrix) const
 		{
 			matrix4_t result;
 			for (unsigned int i = 0; i < length; i++)
@@ -263,7 +263,7 @@ namespace math
 			return result;
 		}
 
-		matrix4_t operator- (const matrix4_t & matrix) const
+		matrix4_t operator- (const matrix4_t& matrix) const
 		{
 			matrix4_t result;
 			for (unsigned int i = 0; i < length; i++)
@@ -335,7 +335,7 @@ namespace math
 
 		return m;
 	}
-	
+
 	template<typename T>
 	inline matrix4_t<T> matrix4_t<T>::perspective(const float fov, const float aspect, const float near_plane, const float far_plane)
 	{
@@ -351,7 +351,7 @@ namespace math
 		m.m00 = (two * near_plane) / (right - left);
 		m.m11 = (two * near_plane) / (top - bottom);
 		m.m22 = -(far_plane + near_plane) / (far_plane - near_plane);
-		 
+
 		m.m23 = -static_cast<T>(1.0);
 		m.m32 = -(2.0f * near_plane * far_plane) / (far_plane - near_plane);
 
@@ -379,7 +379,7 @@ namespace math
 		const float s = std::sin(rad);
 
 		matrix4_t<T> matrix = matrix4_t<T>::identity;
-		
+
 		matrix.m11 = c;
 		matrix.m21 = s;
 		matrix.m12 = -s;

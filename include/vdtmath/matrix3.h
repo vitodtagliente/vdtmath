@@ -39,7 +39,7 @@ namespace math
 		matrix3_t()
 			: data()
 		{
-			std::memset(data, static_cast<T>(0), length * sizeof(T));
+			std::memset(data, 0, length * sizeof(T));
 		}
 
 		matrix3_t(const T value)
@@ -100,19 +100,19 @@ namespace math
 		// sub matrix
 		matrix2_t<T> minor(const unsigned int i, const unsigned int j) const
 		{
-			assert(i < columns && j < rows);
-			matrix3_t result;
+			assert(i < columns&& j < rows);
+			matrix2_t<T> result;
 
-			for (unsigned int j = 0, _j = 0; j < rows; ++j)
+			for (unsigned int _j = 0, __j = 0; _j < rows; ++_j)
 			{
-				if (j == j) continue;
-				for (unsigned int i = 0, _i = 0; i < columns; ++i)
+				if (_j == j) continue;
+				for (unsigned int _i = 0, __i = 0; _i < columns; ++_i)
 				{
-					if (i == i) continue;
-					result(_i, _j) = (*this)(i, j);
-					++_i;
+					if (_i == i) continue;
+					result(__i, __j) = (*this)(_i, _j);
+					++__i;
 				}
-				++_j;
+				++__j;
 			}
 			return result;
 		}
@@ -120,7 +120,7 @@ namespace math
 		matrix3_t inverse(bool& is_invertible) const
 		{
 			is_invertible = false;
-			T d = determinant(*this);
+			const T d = determinant();
 			if (d != static_cast<T>(0.0)) {
 				is_invertible = true;
 				return adjugate() / d;
