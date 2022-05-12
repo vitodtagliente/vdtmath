@@ -27,6 +27,9 @@ int main()
 			3.f, 2.f,
 			-7.f, -5.f
 		));
+
+		// matrix multiplication
+		assert(a * a.inverse(canInvert) == matrix2::identity);
 	}
 
 	// unit testing matrix3
@@ -50,6 +53,9 @@ int main()
 			20.f, -15.f, -4.f,
 			-5.f, 4.f, 1.f
 		));
+
+		// matrix multiplication
+		assert(a * a.inverse(canInvert) == matrix3::identity);
 	}
 
 	// unit testing matrix4
@@ -76,5 +82,51 @@ int main()
 			.25f, -.25f, .25f, .25f,
 			-.25f, .25f, .25f, .25f
 		));
+
+		// matrix multiplication
+		assert(a * a.inverse(canInvert) == matrix4::identity);
+	}
+
+	// tests 
+	{
+		const matrix2 a(
+			8.f, 9.f,
+			5.f, -1.f
+		);
+		const matrix2 b(
+			-2.f, 3.f,
+			4.f, 0.f
+		);
+		assert(a * b == matrix2(
+			20.f, 24.f,
+			-14.f, 15.f
+		));
+	}
+
+	// tests 
+	{
+		const matrix4 a(
+			5.f, 7.f, 9.f, 10.f,
+			2.f, 3.f, 3.f, 8.f,
+			8.f, 10.f, 2.f, 3.f,
+			3.f, 3.f, 4.f, 8.f
+		);
+		const matrix4 b(
+			3.f, 10.f, 12.f, 18.f,
+			12.f, 1.f, 4.f, 9.f,
+			9.f, 10.f, 12.f, 2.f,
+			3.f, 12.f, 4.f, 10.f
+		);
+		assert(a * b == matrix4(
+			210.f, 267.f, 236.f, 271.f,
+			93.f, 149.f, 104.f, 149.f,
+			171.f, 146.f, 172.f, 268.f,
+			105.f, 169.f, 128.f, 169.f
+		));
+	}
+
+	// orthographic test
+	{
+
 	}
 }
