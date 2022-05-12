@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+
 #include "algorithm.h"
 #include "matrix3.h"
 #include "vector4.h"

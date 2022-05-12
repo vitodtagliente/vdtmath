@@ -6,7 +6,9 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+
 #include "matrix2.h"
+#include "vector3.h"
 
 namespace math
 {
@@ -256,6 +258,37 @@ namespace math
 			assert(scalar != static_cast<T>(0.0));
 			T f = static_cast<T>(1.0) / scalar;
 			return (*this) * f;
+		}
+
+		matrix3_t operator* (const matrix3_t& matrix) const
+		{
+			matrix3_t result;
+			for (unsigned int j = 0; j < rows; ++j)
+			{
+				for (unsigned int y = 0; y < columns; ++y)
+				{
+					for (unsigned int i = 0; i < rows; ++i)
+					{
+						result(y, j) += (*this)(i, j) * matrix(y, i);
+					}
+				}
+			}
+			return result;
+		}
+
+		vector3_t<T> operator* (const vector3_t<T>& vector) const
+		{
+			vector3_t<T> result;
+			for (unsigned int j = 0; j < rows; ++j)
+			{
+				T value{};
+				for (unsigned int i = 0; i < columns; ++i)
+				{
+					value += (*this)(i, j) * vector[i];
+				}
+				result[j] = value;
+			}
+			return result;
 		}
 	};
 
