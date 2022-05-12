@@ -180,15 +180,15 @@ namespace math
 		bool operator== (const matrix3_t& matrix) const
 		{
 			return m00 == matrix.m00 && m01 == matrix.m01 && m02 == matrix.m02
-				&& m01 == matrix.m01 && m11 == matrix.m11 && m12 == matrix.m12
-				&& m02 == matrix.m02 && m21 == matrix.m21 && m22 == matrix.m22;
+				&& m10 == matrix.m10 && m11 == matrix.m11 && m12 == matrix.m12
+				&& m20 == matrix.m20 && m21 == matrix.m21 && m22 == matrix.m22;
 		}
 
 		bool operator!= (const matrix3_t& matrix) const
 		{
 			return m00 != matrix.m00 || m01 != matrix.m01 || m02 != matrix.m02
-				|| m01 != matrix.m01 || m11 != matrix.m11 || m12 != matrix.m12
-				|| m02 != matrix.m02 || m21 != matrix.m21 || m22 != matrix.m22;
+				|| m10 != matrix.m10 || m11 != matrix.m11 || m12 != matrix.m12
+				|| m20 != matrix.m20 || m21 != matrix.m21 || m22 != matrix.m22;
 		}
 
 		matrix3_t& operator+= (const matrix3_t& matrix)

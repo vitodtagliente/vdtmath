@@ -136,13 +136,13 @@ namespace math
 		bool operator== (const matrix2_t& matrix) const
 		{
 			return m00 == matrix.m00 && m01 == matrix.m01
-				&& m01 == matrix.m01 && m11 == matrix.m11;
+				&& m10 == matrix.m10 && m11 == matrix.m11;
 		}
 
 		bool operator!= (const matrix2_t& matrix) const
 		{
 			return m00 != matrix.m00 || m01 != matrix.m01
-				|| m01 != matrix.m01 || m11 != matrix.m11;
+				|| m10 != matrix.m10 || m11 != matrix.m11;
 		}
 
 		matrix2_t& operator+= (const matrix2_t& matrix)
