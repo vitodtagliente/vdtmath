@@ -33,16 +33,16 @@ namespace math
 
 	inline int random(const int t_min, const int t_max)
 	{
-		std::random_device r;
-		std::default_random_engine e1(r());
+		static std::random_device r;
+		static std::default_random_engine e1(r());
 		std::uniform_int_distribution<int> uniform_dist(t_min, t_max);
 		return uniform_dist(e1);
 	}
 
 	inline float random(const float t_min, const float t_max)
 	{
-		std::random_device r;
-		std::default_random_engine e1(r());
+		static std::random_device r;
+		static std::default_random_engine e1(r());
 		std::uniform_real_distribution<float> uniform_dist(t_min, t_max);
 		return uniform_dist(e1);
 	}
