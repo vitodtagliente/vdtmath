@@ -182,6 +182,12 @@ namespace math
 			const float near_plane,
 			const float far_plane);
 
+		static vector3_t<T> unproject(
+			const vector3_t<T>& screencoords,
+			const matrix4_t& view,
+			const matrix4_t& projection,
+			const vector4_t<T>& viewport);
+
 		// translation matrix
 		static matrix4_t translate(const vector3_t<T>& vector);
 
@@ -359,6 +365,21 @@ namespace math
 		m.m32 = -(2.0f * near_plane * far_plane) / (far_plane - near_plane);
 
 		return m;
+	}
+
+	template<typename T>
+	inline vector3_t<T> matrix4_t<T>::unproject(const vector3_t<T>& screencoords, const matrix4_t& view, const matrix4_t& projection, const vector4_t<T>& viewport)
+	{
+		bool isInvertible = false;
+		const math::mat4 inverse = (projection * view).inverse(isInvertible);
+		math::vec4 temp = math::vec4(wincoord.x, wincoord.y, wincoord.z, 1.f);
+		temp.x = (temp.x - viewport.x) / viewport.z;
+		temp.y = (temp.y - viewport.y) / viewport.w;
+		temp.x = temp.x * 2.f - 1.f;
+		temp.y = temp.y * 2.f - 1.f;
+		math::vec4 objcoords = inverse * temp;
+		objcoords /= objcoords.w;
+		return objcoords;
 	}
 
 	template<typename T>
