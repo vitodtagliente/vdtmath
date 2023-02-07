@@ -368,11 +368,11 @@ namespace math
 	}
 
 	template<typename T>
-	inline vector3_t<T> matrix4_t<T>::unproject(const vector3_t<T>& screencoords, const matrix4_t& view, const matrix4_t& projection, const vector4_t<T>& viewport)
+	inline vector3_t<T> matrix4_t<T>::unproject(const vector3_t<T>& screencoords, const matrix4_t<T>& view, const matrix4_t<T>& projection, const vector4_t<T>& viewport)
 	{
 		bool isInvertible = false;
 		const math::mat4 inverse = (projection * view).inverse(isInvertible);
-		math::vec4 temp = math::vec4(wincoord.x, wincoord.y, wincoord.z, 1.f);
+		math::vec4 temp = math::vec4(screencoords.x, screencoords.y, screencoords.z, 1.f);
 		temp.x = (temp.x - viewport.x) / viewport.z;
 		temp.y = (temp.y - viewport.y) / viewport.w;
 		temp.x = temp.x * 2.f - 1.f;
