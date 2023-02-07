@@ -372,7 +372,7 @@ namespace math
 	{
 		bool isInvertible = false;
 		const math::matrix4_t<T> inverse = (projection * view).inverse(isInvertible);
-		math::vec4 temp = math::vector4_t<T>(screencoords.x, screencoords.y, screencoords.z, 1.f);
+		math::vector4_t<T> temp = math::vector4_t<T>(screencoords.x, screencoords.y, screencoords.z, 1.f);
 		temp.x = (temp.x - viewport.x) / viewport.z;
 		temp.y = (temp.y - viewport.y) / viewport.w;
 		temp.x = temp.x * 2.f - 1.f;
