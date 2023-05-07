@@ -14,7 +14,7 @@ namespace math
 		: x(vector.x)
 		, y(vector.y)
 		, z(vector.z)
-		, w(1.0f)
+		, w(scalar)
 	{
 	}
 

@@ -3,6 +3,7 @@
 #pragma once
 #pragma warning(disable : 4201)
 
+#include <cassert>
 #include <cstddef>
 
 namespace math
