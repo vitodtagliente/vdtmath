@@ -1,5 +1,4 @@
 /// Copyright (c) Vito Domenico Tagliente
-
 #pragma once 
 
 #include "vector2.h"
@@ -9,7 +8,17 @@ namespace math
 	template <typename T>
 	struct rectangle_t
 	{
-		T x, y, width, height;
+		union
+		{
+			struct
+			{
+				T x, y, width, height;
+			};
+
+			T data[4];
+		};
+
+		const std::size_t length = 4;
 
 		rectangle_t()
 			: x()
@@ -17,6 +26,15 @@ namespace math
 			, width()
 			, height()
 		{}
+
+		rectangle_t(const vector2_t<T>& position, const T width, const T height)
+			: x(position.x)
+			, y(position.y)
+			, width(width)
+			, height(height)
+		{
+
+		}
 
 		rectangle_t(const T x, const T y, const T width, const T height)
 			: x(x)
@@ -27,65 +45,40 @@ namespace math
 
 		}
 
-		bool operator== (const rectangle_t& other) const
+		bool operator== (const rectangle_t& rect) const
 		{
-			return x == other.x && y == other.y
-				&& width == other.width && height == other.height;
+			return x == rect.x && y == rect.y
+				&& width == rect.width && height == rect.height;
 		}
 
-		bool operator!= (const rectangle_t& other) const
+		bool operator!= (const rectangle_t& rect) const
 		{
-			return !(*this == other);
+			return !(*this == rect);
 		}
 
-		rectangle_t& operator*= (const T scalar)
+		bool contains(const rectangle_t& rect) const
 		{
-			x *= scalar;
-			y *= scalar;
-			width *= scalar;
-			height *= scalar;
-			return *this;
+			return x - width <= rect.x - width
+				&& rect.x + rect.width <= x + width
+				&& y - height <= rect.y - rect.height
+				&& rect.y + rect.height <= y + height;
 		}
 
-		rectangle_t& operator/= (const T scalar)
+		bool contains(const vector2_t<T>& point) const
 		{
-			const T factor = static_cast<T>(1) / scalar;
-			x *= factor;
-			y *= factor;
-			width *= factor;
-			height *= factor;
-			return *this;
+			return point.x >= x - width
+				&& point.x <= x + width
+				&& point.y >= y - height
+				&& point.y <= y + height;
 		}
 
-		rectangle_t operator* (const T scalar)
+		bool intersects(const rectangle_t& rect) const
 		{
-			return 
-			{ 
-				x * scalar, 
-				y * scalar, 
-				width * scalar, 
-				height * scalar 
-			};
+			return !(x - width >= rect.x + rect.width
+				|| x + width <= rect.x - rect.width
+				|| y - height >= rect.y + rect.height
+				|| y + rect.y <= rect.y - height);
 		}
-
-		rectangle_t operator/ (const T scalar)
-		{
-			const T factor = static_cast<T>(1) / scalar;
-			return
-			{
-				x * factor,
-				y * factor,
-				width * factor,
-				height * factor
-			};
-		}
-
-		bool intersects(const rectangle_t& other) const
-		{
-			// #todo
-			return false;
-		}
-
 	};
 
 	// rectangle types

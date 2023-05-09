@@ -1,5 +1,4 @@
 /// Copyright (c) Vito Domenico Tagliente
-
 #pragma once 
 
 #include "vector2.h"
@@ -9,8 +8,17 @@ namespace math
 	template <typename T>
 	struct circle_t
 	{
-		vector2_t<T> position;
-		T radius;
+		union
+		{
+			struct
+			{
+				T x, y, radius;
+			};
+
+			T data[3];
+		};
+
+		const std::size_t length = 3;
 
 		circle_t()
 			: position()
@@ -18,21 +26,24 @@ namespace math
 		{}
 
 		circle_t(const vector2_t<T>& position, const T radius)
-			: position(position)
+			: x(position.x)
+			, y(position.y)
 			, radius(radius)
 		{
 
 		}
 
 		circle_t(const T x, const T y, const T radius)
-			: position(x, y)
+			: x(x)
+			, y(y)
 			, radius(radius)
 		{
 
 		}
 
 		circle_t(const circle_t& circle)
-			: position(circle.position)
+			: x(circle.x)
+			, y(circle.y)
 			, radius(circle.radius)
 		{
 
@@ -40,8 +51,7 @@ namespace math
 
 		bool operator== (const circle_t& circle) const
 		{
-			return position == circle.position
-				&& radius == circle.radius;
+			return x == circle.x && y == circle.y && radius == circle.radius;
 		}
 
 		bool operator!= (const circle_t& circle) const
@@ -49,17 +59,28 @@ namespace math
 			return !(*this == circle);
 		}
 
-		bool intersects(const circle_t& circle) const
+		bool contains(const circle_t& circle) const
 		{
-			return position.distance(circle.position) < (radius + circle.radius);
+			const T deltaX = x - circle.x;
+			const T deltaY = y - circle.y;
+			return static_cast<T>(sqrt(deltaX * deltaX + deltaY * deltaY)) <= radius
+				&& circle.radius <= radius;
 		}
 
 		// return true if a point is contained inside the circle
-		bool intersects(const vector2_t<T>& point) const
+		bool contains(const vector2_t<T>& point) const
 		{
-			return position.distance(point) <= radius;
+			const T deltaX = x - point.x;
+			const T deltaY = y - point.y;
+			return static_cast<T>(sqrt(deltaX * deltaX + deltaY * deltaY)) <= radius;
 		}
 
+		bool intersects(const circle_t& circle) const
+		{
+			const T deltaX = x - circle.x;
+			const T deltaY = y - circle.y;
+			return static_cast<T>(sqrt(deltaX * deltaX + deltaY * deltaY)) <= (radius + circle.radius);
+		}
 	};
 
 	// circle types

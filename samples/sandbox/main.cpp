@@ -129,4 +129,10 @@ int main()
 	{
 
 	}
+
+	// rectangle
+	{
+		rectangle rect(0.f, 0.f, 100.f, 100.f);
+		assert(rect.contains(vec2(10.f, 10.f)) == true);
+	}
 }
