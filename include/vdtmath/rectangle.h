@@ -45,6 +45,15 @@ namespace math
 
 		}
 
+		rectangle_t(const rectangle_t& rect)
+			: x(rect.x)
+			, y(rect.y)
+			, width(rect.width)
+			, height(rect.height)
+		{
+
+		}
+
 		bool operator== (const rectangle_t& rect) const
 		{
 			return x == rect.x && y == rect.y

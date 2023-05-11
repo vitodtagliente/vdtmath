@@ -21,7 +21,8 @@ namespace math
 		const std::size_t length = 3;
 
 		circle_t()
-			: position()
+			: x()
+			, y()
 			, radius()
 		{}
 
