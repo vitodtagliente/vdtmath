@@ -50,6 +50,14 @@ namespace math
 
 		}
 
+		circle_t& operator= (const circle_t& other)
+		{
+			x = other.x;
+			y = other.y;
+			radius = other.radius;
+			return *this;
+		}
+
 		bool operator== (const circle_t& circle) const
 		{
 			return x == circle.x && y == circle.y && radius == circle.radius;

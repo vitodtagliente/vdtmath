@@ -54,6 +54,15 @@ namespace math
 
 		}
 
+		rectangle_t& operator= (const rectangle_t& other)
+		{
+			x = other.x;
+			y = other.y;
+			width = other.width;
+			height = other.height;
+			return *this;
+		}
+
 		bool operator== (const rectangle_t& rect) const
 		{
 			return x == rect.x && y == rect.y
