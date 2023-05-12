@@ -92,10 +92,10 @@ namespace math
 
 		bool intersects(const rectangle_t& rect) const
 		{
-			return !(x - width >= rect.x + rect.width
-				|| x + width <= rect.x - rect.width
-				|| y - height >= rect.y + rect.height
-				|| y + rect.y <= rect.y - height);
+			return !(x - width > rect.x + rect.width
+				|| x + width < rect.x - rect.width
+				|| y - height > rect.y + rect.height
+				|| y + rect.y < rect.y - height);
 		}
 	};
 
