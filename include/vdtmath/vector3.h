@@ -126,18 +126,18 @@ namespace math
 			return *this;
 		}
 
-		vector3_t project(const vector3_t &)
+		vector3_t project(const vector3_t& v)
 		{
-			T d = vector * vector;
+			T d = v * v;
 			assert(d != static_cast<T>(0.0));
-			return v * ((*this * vector) / d);
+			return v * ((*this * v) / d);
 		}
 
-		vector3_t reject(const vector3_t & vector)
+		vector3_t reject(const vector3_t & v)
 		{
-			T d = vector * vector;
+			T d = v * v;
 			assert(d != static_cast<T>(0.0));
-			return (*this - vector) * ((*this * vector) / d);
+			return (*this - v) * ((*this * v) / d);
 		}
 
 		// Operators overloading 

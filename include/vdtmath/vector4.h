@@ -108,18 +108,18 @@ namespace math
 			return *this;
 		}
 
-		vector4_t project(const vector4_t&)
+		vector4_t project(const vector4_t& v)
 		{
-			T d = vector * vector;
+			T d = v * v;
 			assert(d != static_cast<T>(0.0));
-			return v * ((*this * vector) / d);
+			return v * ((*this * v) / d);
 		}
 
-		vector4_t reject(const vector4_t & vector)
+		vector4_t reject(const vector4_t & v)
 		{
-			T d = vector * vector;
+			T d = v * v;
 			assert(d != static_cast<T>(0.0));
-			return (*this - vector) * ((*this * vector) / d);
+			return (*this - v) * ((*this * v) / d);
 		}
 
 		// Operators overloading 
@@ -168,8 +168,8 @@ namespace math
 
 		vector4_t& operator*= (const T scalar)
 		{
-			x *= vector;
-			y *= vector;
+			x *= scalar;
+			y *= scalar;
 			z *= scalar;
 			w *= scalar;
 			return *this;
